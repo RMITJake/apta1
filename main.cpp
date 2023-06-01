@@ -59,15 +59,43 @@ void readEnvStdin(Env env){
     std::cout << "###########################" << std::endl;
     std::cout << "# Inside readEncStdin #####" << std::endl;
     std::cout << "###########################" << std::endl;
-    std::cout << env;
-
+    std::cout << "env reference: " << env << std::endl;
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Reding Input File   #####" << std::endl;
+    std::cout << "###########################" << std::endl;
     for (int row = 0; row < ENV_DIM; row++)
     {
         for (int col = 0; col < ENV_DIM; col++)
         {
-
+            std::cin >> env[row][col];
         }
     }
+
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Printing Env        #####" << std::endl;
+    std::cout << "###########################" << std::endl;
+    for (int row = 0; row < ENV_DIM; row++)
+    {
+        for (int col = 0; col < ENV_DIM; col++)
+        {
+            std::cout << env[row][col];
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Print Random Chars  #####" << std::endl;
+    std::cout << "###########################" << std::endl;
+    std::cout << "[0][3]: " << env[0][3];
+    std::cout << std::endl;
+    std::cout << "[2][1]: " << env[2][1];
+    std::cout << std::endl;
+    std::cout << "[5][9]: " << env[5][9];
+    std::cout << std::endl;
+    std::cout << "[4][8]: " << env[4][8];
+    std::cout << std::endl;
+    std::cout << "[9][3]: " << env[9][3];
+    std::cout << std::endl;
 }
 
 // void printEnvStdout(Env env, NodeList* solution) {
