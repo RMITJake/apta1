@@ -4,7 +4,9 @@
 
 Node::Node(int row, int col, int dist_traveled)
 {
-    // TODO
+    this->row = row;
+    this->col = col;
+    this->dist_traveled = dist_traveled;
 }
 
 Node::~Node(){
@@ -12,24 +14,24 @@ Node::~Node(){
 }
 
 int Node::getRow(){
-    // TODO
+    return this->row;
 }
 
 int Node::getCol(){
-    // TODO
+    return this->col;
 }
 
 int Node::getDistanceTraveled(){
-    // TODO
+    return this->dist_traveled;
 }
 
 void Node::setDistanceTraveled(int dist_traveled)
 {
-    // TODO
+    this->dist_traveled = dist_traveled;
 }
 
-int Node::getEstimatedDist2Goal(Node* goal){
+// int Node::getEstimatedDist2Goal(Node* goal){
     // TODO
-}
+// }
     
 //--------------------------------                             

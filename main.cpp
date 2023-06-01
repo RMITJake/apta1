@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Types.h"
-// #include "Node.h"
+#include "Node.h"
 // #include "NodeList.h"
 // #include "PathSolver.h"
 
@@ -68,6 +68,24 @@ void readEnvStdin(Env env){
         for (int col = 0; col < ENV_DIM; col++)
         {
             std::cin >> env[row][col];
+            if (env[row][col] == SYMBOL_START)
+            {
+                Node S = Node(row, col, 0);
+                std::cout << "S is at location: [" << S.getRow() << "][" << S.getCol() << "]";
+                std::cout << std::endl;
+            }
+            else if (env[row][col] == SYMBOL_GOAL)
+            {
+                Node G = Node(row, col, 0);
+                std::cout << "G is at location: [" << G.getRow() << "][" << G.getCol() << "]";
+                std::cout << std::endl;
+            } else if (env[row][col] == SYMBOL_WALL)
+            {
+                Node W = Node(row, col, 0);
+            } else if (env[row][col] == SYMBOL_EMPTY)
+            {
+                Node E = Node(row, col, 0);
+            }
         }
     }
 
@@ -82,6 +100,9 @@ void readEnvStdin(Env env){
         }
         std::cout << std::endl;
     }
+    std::cout << "#TBD#######################" << std::endl;
+    std::cout << "# Print Key Nodes     #####" << std::endl;
+    std::cout << "###########################" << std::endl;
 
     std::cout << "###########################" << std::endl;
     std::cout << "# Print Random Chars  #####" << std::endl;
