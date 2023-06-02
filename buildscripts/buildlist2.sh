@@ -1,14 +1,6 @@
 #!/bin/bash
-# files paths
 path="/home/jake/uni/2337 Advanded Programming Techniques/apta1"
 outfile="$path/assign1.out"
-
-# file names
-main="$path/main.cpp"
-node="$path/Node.cpp"
-list="$path/NodeList.cpp"
-solv="$path/PathSolver.cpp"
-
 if [ -f  "$outfile" ]; then
 	echo "$oufile exists"
 	echo "#==================================#"
@@ -20,7 +12,7 @@ fi
 echo "#==================================#"
 echo "#           Building....           #"
 echo "#==================================#"
-g++ -Wall -Werror -std=c++14 -O -o "$outfile" "$main" "$node" "$list" "$solv"
+g++ -Wall -Werror -std=c++14 -O -o "$outfile" "$path/main.cpp" "$path/Node.cpp" "$path/NodeList.cpp"
 
 if [ $? == 1 ]; then
 	echo "#==================================#"
