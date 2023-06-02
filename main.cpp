@@ -63,9 +63,8 @@ void readEnvStdin(Env env){
     NodeList* KeyNodes = new NodeList();
     NodeList* WallNodes = new NodeList();
     NodeList* UnexploredNodes = new NodeList();
+    NodeList* ExploredNodes = new NodeList();
 
-    // Node S = new Node(0, 0, 0);
-    // Node G = new Node(0, 0, 0);
     for (int row = 0; row < ENV_DIM; row++)
     {
         for (int col = 0; col < ENV_DIM; col++)
@@ -75,6 +74,7 @@ void readEnvStdin(Env env){
             {
                 Node* S = new Node(row, col, 0);
                 KeyNodes->addElement(S);
+                ExploredNodes->addElement(S);
             }
             else if (env[row][col] == SYMBOL_GOAL)
             {
@@ -86,8 +86,8 @@ void readEnvStdin(Env env){
                 WallNodes->addElement(W);
             } else if (env[row][col] == SYMBOL_EMPTY)
             {
-                Node* E = new Node(row, col, 0);
-                UnexploredNodes->addElement(E);
+                Node* U = new Node(row, col, 0);
+                UnexploredNodes->addElement(U);
             }
         }
     }
