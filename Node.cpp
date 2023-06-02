@@ -30,8 +30,11 @@ void Node::setDistanceTraveled(int dist_traveled)
     this->dist_traveled = dist_traveled;
 }
 
-// int Node::getEstimatedDist2Goal(Node* goal){
-    // TODO
-// }
+int Node::getEstimatedDist2Goal(Node* goal){
+    int manhattanDistance = (this->col - goal->getCol()) + (this->row - goal->getRow());
+    return this->dist_traveled + manhattanDistance;
+    // distance_travelled of node p + Manhattan distance from p to G
+    // Manhattan_distance = |colp − colG| + |rowp − row G|
+}
     
 //--------------------------------                             
