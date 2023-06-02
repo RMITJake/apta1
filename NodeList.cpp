@@ -33,8 +33,8 @@ int NodeList::getLength(){
 }
 
 void NodeList::addElement(Node* newPos){
-    this->length++;
     this->nodes[length] = newPos;
+    this->length++;
 }
 
 Node* NodeList::getNode(int i){
