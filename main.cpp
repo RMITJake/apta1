@@ -61,6 +61,8 @@ void readEnvStdin(Env env){
 
     // Create a NodeList for key nodes
     NodeList* KeyNodes = new NodeList();
+    NodeList* WallNodes = new NodeList();
+    NodeList* UnexploredNodes = new NodeList();
 
     // Node S = new Node(0, 0, 0);
     // Node G = new Node(0, 0, 0);
@@ -80,10 +82,12 @@ void readEnvStdin(Env env){
                 KeyNodes->addElement(G);
             } else if (env[row][col] == SYMBOL_WALL)
             {
-                // Node* W = new Node(row, col, 0);
+                Node* W = new Node(row, col, 0);
+                WallNodes->addElement(W);
             } else if (env[row][col] == SYMBOL_EMPTY)
             {
-                // Node* E = new Node(row, col, 0);
+                Node* E = new Node(row, col, 0);
+                UnexploredNodes->addElement(E);
             }
         }
     }
@@ -101,7 +105,7 @@ void readEnvStdin(Env env){
     }
 
     std::cout << std::endl;
-    std::cout << "#TBD#######################" << std::endl;
+    std::cout << "###########################" << std::endl;
     std::cout << "# Print Key Nodes         #" << std::endl;
     std::cout << "###########################" << std::endl;
     
@@ -112,6 +116,35 @@ void readEnvStdin(Env env){
 
     std::cout << "G is at location: [" << KeyNodes->getNode(2)->getRow() << "][" << KeyNodes->getNode(2)->getCol() << "]";
     std::cout << "[" << env[KeyNodes->getNode(2)->getRow()][KeyNodes->getNode(2)->getCol()] << "]" << std::endl;
+
+    std::cout << std::endl;
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Print Wall Nodes        #" << std::endl;
+    std::cout << "###########################" << std::endl;
+    for (int iterator=0; iterator < WallNodes->getLength(); iterator++)
+    {
+        std::cout << "[" << WallNodes->getNode(iterator)->getRow() << "]";
+        std::cout << "[" << WallNodes->getNode(iterator)->getCol() << "]";
+        if (iterator != (WallNodes->getLength()-1))
+        {
+            std::cout << ", ";
+        }
+    }
+
+    std::cout << std::endl;
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Print Unexplored Nodes  #" << std::endl;
+    std::cout << "###########################" << std::endl;
+    for (int iterator=0; iterator < UnexploredNodes->getLength(); iterator++)
+    {
+        std::cout << "[" << UnexploredNodes->getNode(iterator)->getRow() << "]";
+        std::cout << "[" << UnexploredNodes->getNode(iterator)->getCol() << "]";
+        if (iterator != (UnexploredNodes->getLength()-1))
+        {
+            std::cout << ", ";
+        }
+    }
+
 
     std::cout << std::endl;
     std::cout << "###########################" << std::endl;
