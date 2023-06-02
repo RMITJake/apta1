@@ -23,6 +23,7 @@ void PathSolver::forwardSearch(Env env){
     NodeList* WallNodes = new NodeList();
     NodeList* AvailableNodes = new NodeList();
     NodeList* ExploredNodes = new NodeList();
+    // NodeList* Solution = new NodeList();
 
     // Delcare the key nodes
     Node* GoalNode = nullptr;
@@ -69,10 +70,33 @@ void PathSolver::forwardSearch(Env env){
         std::cout << "[" << CurrentPosition->getCol() << "]";
         std::cout << std::endl;
         
-        // Check Row +1 Col +0
-        // Check Row +0 Col +1
-        // Check Row -1 Col +0
-        // Check Row +0 Col -1
+
+        // Check Surrounding Nodes - Maybe makes this into a function
+        // Check Right Node: Row +0 Col +1
+        if(env[CurrentPosition->getRow()][CurrentPosition->getCol()+1] == '.')
+        {
+            std::cout << ".";
+            CurrentPosition = 
+        } else
+        {
+            std::cout << "x";
+        }
+        // Check Below Node: Row +1 Col +0
+        if(env[CurrentPosition->getRow()+1][CurrentPosition->getCol()])
+        {
+            std::cout << "=";
+        }
+        // Check Left Node: Row +0 Col -1
+        if(env[CurrentPosition->getRow()][CurrentPosition->getCol()-1])
+        {
+            std::cout << "=";
+        }
+        // Check Above Node: Row -1 Col +0
+        if(env[CurrentPosition->getRow()-1][CurrentPosition->getCol()])
+        {
+            std::cout << "=";
+        }
+        std::cout << std::endl;
     }
 
 
