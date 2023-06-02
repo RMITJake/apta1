@@ -2,7 +2,22 @@
 #include <iostream>
 
 NodeList::NodeList(){
-    // TODO
+    // Set the current number of Nodes in NodeList
+    this->length = 0;
+
+    // Initialise the NodeList with empty nodes
+    int i = 0;
+    for (int row=0; row < ENV_DIM; row++)
+    {
+        for (int col=0; col < ENV_DIM; col++)
+        {
+            nodes[i] = new Node(row, col, 0);
+            std::cout << "Created Node[" << i << "]";
+            std::cout << " at [" << row << "][" << col << "]";
+            std::cout << std::endl;
+            i++;
+        }
+    }
 }
 
 NodeList::~NodeList(){
@@ -14,13 +29,14 @@ NodeList::NodeList(NodeList& other){
 }
 
 int NodeList::getLength(){
-    // TODO
+    return this->length;
 }
 
 void NodeList::addElement(Node* newPos){
-    // TODO
+    this->length++;
+    this->nodes[length] = newPos;
 }
 
 Node* NodeList::getNode(int i){
-    // TODO
+    return this->nodes[i];
 }
