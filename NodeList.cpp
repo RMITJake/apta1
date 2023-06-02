@@ -12,9 +12,9 @@ NodeList::NodeList(){
         for (int col=0; col < ENV_DIM; col++)
         {
             nodes[i] = new Node(row, col, 0);
-            std::cout << "Created Node[" << i << "]";
-            std::cout << " at [" << row << "][" << col << "]";
-            std::cout << std::endl;
+            // std::cout << "Created Node[" << i << "]";
+            // std::cout << " at [" << row << "][" << col << "]";
+            // std::cout << std::endl;
             i++;
         }
     }

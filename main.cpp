@@ -32,7 +32,6 @@ int main(int argc, char** argv){
 
     // Load Environment 
     Env env;
-    std::cout << "Loaded env" << std::endl;
     readEnvStdin(env);
 
     // Solve using forwardSearch
@@ -57,11 +56,7 @@ int main(int argc, char** argv){
 
 void readEnvStdin(Env env){
     std::cout << "###########################" << std::endl;
-    std::cout << "# Inside readEncStdin #####" << std::endl;
-    std::cout << "###########################" << std::endl;
-    std::cout << "# env reference: " << env << std::endl;
-    std::cout << "###########################" << std::endl;
-    std::cout << "# Reding Input File   #####" << std::endl;
+    std::cout << "# Reding Input File       #" << std::endl;
     std::cout << "###########################" << std::endl;
 
     // Create a NodeList for key nodes
@@ -92,11 +87,9 @@ void readEnvStdin(Env env){
             }
         }
     }
-    std::cout << "S is at location: [" << KeyNodes->getNode(1)->getRow() << "][" << KeyNodes->getNode(1)->getCol() << "]" << std::endl;
-    std::cout << "G is at location: [" << KeyNodes->getNode(2)->getRow() << "][" << KeyNodes->getNode(2)->getCol() << "]" << std::endl;
 
     std::cout << "###########################" << std::endl;
-    std::cout << "# Printing Env        #####" << std::endl;
+    std::cout << "# Printing Env            #" << std::endl;
     std::cout << "###########################" << std::endl;
     for (int row = 0; row < ENV_DIM; row++)
     {
@@ -106,12 +99,23 @@ void readEnvStdin(Env env){
         }
         std::cout << std::endl;
     }
-    std::cout << "#TBD#######################" << std::endl;
-    std::cout << "# Print Key Nodes     #####" << std::endl;
-    std::cout << "###########################" << std::endl;
 
+    std::cout << std::endl;
+    std::cout << "#TBD#######################" << std::endl;
+    std::cout << "# Print Key Nodes         #" << std::endl;
     std::cout << "###########################" << std::endl;
-    std::cout << "# Print Random Chars  #####" << std::endl;
+    
+    // Echo the row and col of S
+    std::cout << "S is at location: [" << KeyNodes->getNode(1)->getRow() << "][" << KeyNodes->getNode(1)->getCol() << "]";
+    // Confirm the symbol at location [row][col]
+    std::cout << "[" << env[KeyNodes->getNode(1)->getRow()][KeyNodes->getNode(1)->getCol()] << "]" << std::endl;
+
+    std::cout << "G is at location: [" << KeyNodes->getNode(2)->getRow() << "][" << KeyNodes->getNode(2)->getCol() << "]";
+    std::cout << "[" << env[KeyNodes->getNode(2)->getRow()][KeyNodes->getNode(2)->getCol()] << "]" << std::endl;
+
+    std::cout << std::endl;
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Print Random Chars      #" << std::endl;
     std::cout << "###########################" << std::endl;
     std::cout << "[0][3]: " << env[0][3];
     std::cout << std::endl;
