@@ -28,6 +28,7 @@ void PathSolver::forwardSearch(Env env){
 
     // Delcare the key nodes
     Node* GoalNode = nullptr;
+    Node* StartNode = nullptr;
 
     for (int row = 0; row < ENV_DIM; row++)
     {
@@ -36,9 +37,13 @@ void PathSolver::forwardSearch(Env env){
             std::cin >> env[row][col];
             if (env[row][col] == SYMBOL_START)
             {
-                Node* StartNode = new Node(row, col, 0);
+                StartNode = new Node(row, col, 0);
                 KeyNodes->addElement(StartNode);
                 AvailableNodes->addElement(StartNode);
+                std::cout << "Starting node = ";
+                std::cout << "[" << StartNode->getRow() << "]";
+                std::cout << "[" << StartNode->getCol() << "]";
+                std::cout << std::endl; 
             }
             else if (env[row][col] == SYMBOL_GOAL)
             {
@@ -62,13 +67,13 @@ void PathSolver::forwardSearch(Env env){
     std::cout << "#   Setting CurrentPos    #" << std::endl;
     std::cout << "###########################" << std::endl;
     // Must be included in below loop
-    Node* CurrentPosition = AvailableNodes->getNode(0);
+    Node* CurrentPosition = StartNode;
     std::cout << "Initial node added to availablenodes" << std::endl;
     ExploredNodes->addElement(CurrentPosition);
     std::cout << "Initial node added to explorednodes" << std::endl;
 
     while(CurrentPosition != GoalNode)
-    // for(int loopCounter=0; loopCounter < 25; loopCounter++)
+    // for(int loopCounter=0; loopCounter < 2; loopCounter++)
     {
 
         // std::cout << "CurrentPosition = ";
@@ -125,7 +130,11 @@ void PathSolver::forwardSearch(Env env){
             {
                 for (int col = 0; col < ENV_DIM; col++)
                 {
-                    if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
+                    if (env[row][col] == 'G')
+                    {
+                        env[row][col] = 'G';
+                    }
+                    else if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
                     {
                         env[row][col] = 'x';
                     }
