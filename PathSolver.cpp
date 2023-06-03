@@ -44,6 +44,7 @@ void PathSolver::forwardSearch(Env env){
             {
                 GoalNode = new Node(row, col, 0);
                 KeyNodes->addElement(GoalNode);
+                AvailableNodes->addElement(GoalNode);
             } else if (env[row][col] == SYMBOL_WALL)
             {
                 Node* WallNode = new Node(row, col, 0);
@@ -66,7 +67,8 @@ void PathSolver::forwardSearch(Env env){
     ExploredNodes->addElement(CurrentPosition);
     std::cout << "Initial node added to explorednodes" << std::endl;
 
-    for(int loopCounter=0; loopCounter < 25; loopCounter++)
+    while(CurrentPosition != GoalNode)
+    // for(int loopCounter=0; loopCounter < 25; loopCounter++)
     {
 
         // std::cout << "CurrentPosition = ";
