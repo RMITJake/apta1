@@ -66,7 +66,7 @@ void PathSolver::forwardSearch(Env env){
     ExploredNodes->addElement(CurrentPosition);
     std::cout << "Initial node added to explorednodes" << std::endl;
 
-    for(int loopCounter=0; loopCounter < 20; loopCounter++)
+    for(int loopCounter=0; loopCounter < 25; loopCounter++)
     {
 
         // std::cout << "CurrentPosition = ";
@@ -88,7 +88,7 @@ void PathSolver::forwardSearch(Env env){
         std::cout << "SurroundingNodes->getLength() = " << SurroundingNodes->getLength() << std::endl;
         if(SurroundingNodes->getLength() == 0)
         {
-            backTrack(CurrentPosition, AvailableNodes, ExploredNodes);
+            CurrentPosition = backTrack(CurrentPosition, AvailableNodes, ExploredNodes, SurroundingNodes);
         }
 
         for (int i = 0; i < SurroundingNodes->getLength(); i++)
@@ -265,11 +265,24 @@ bool PathSolver::inExplored(Node* CheckNode, NodeList* ExploredNodes)
 
 }
 
-void PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes)
+Node* PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes, NodeList* SurroundingNodes)
 {
     std::cout << "###########################" << std::endl;
     std::cout << "#       Backtracking      #" << std::endl;
     std::cout << "###########################" << std::endl;
+    int backTrackCounter = 1;
+    while (SurroundingNodes->getLength() == 0)
+    {
+        backTrackCounter++;
+        CurrentPosition = ExploredNodes->getNode(ExploredNodes->getLength()-backTrackCounter);
+        std::cout << "CurrentPosition = ";
+        std::cout << "[" << CurrentPosition->getRow() << "]";
+        std::cout << "[" << CurrentPosition->getCol() << "]";
+        std::cout << std::endl;
+        SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
+    }
+
+    return CurrentPosition;
 }
 
 //-----------------------------

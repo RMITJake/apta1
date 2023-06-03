@@ -48,7 +48,7 @@ private:
     NodeList *unexploredNodes;
     bool inExplored(Node *CheckNode, NodeList *ExploredNodes);
     Node *CheckNode;
-    void backTrack(Node *CurrentPosition, NodeList *AvailableNodes, NodeList *NodesExplored);
+    Node* backTrack(Node *CurrentPosition, NodeList *AvailableNodes, NodeList *NodesExplored, NodeList* SurroundingNodes);
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER
