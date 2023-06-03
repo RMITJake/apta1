@@ -85,21 +85,6 @@ void PathSolver::forwardSearch(Env env){
         // }
         // std::cout << std::endl;
 
-
-        // Check Surrounding Nodes - Maybe makes this into a function
-        // Check Right Node: Row +0 Col +1
-        for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
-        {
-           if(CurrentPosition->getEstimatedDist2Goal(GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
-            {
-                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
-                ExploredNodes->addElement(CurrentPosition);
-            } else {
-                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
-                ExploredNodes->addElement(CurrentPosition);
-            }
-        }
-
         std::cout << "SurroundingNodes->getLength() = " << SurroundingNodes->getLength() << std::endl;
         if(SurroundingNodes->getLength() == 0)
         {
@@ -115,7 +100,26 @@ void PathSolver::forwardSearch(Env env){
             std::cout << std::endl; 
         }
 
-            for (int row = 0; row < ENV_DIM; row++)
+        // Check Surrounding Nodes - Maybe makes this into a function
+        // Check Right Node: Row +0 Col +1
+        for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
+        {
+           if(CurrentPosition->getEstimatedDist2Goal(GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
+            {
+                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+                ExploredNodes->addElement(CurrentPosition);
+            } else {
+                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+                ExploredNodes->addElement(CurrentPosition);
+            }
+        }
+        std::cout << "Moved to = ";
+        std::cout << "[" << CurrentPosition->getRow() << "]";
+        std::cout << "[" << CurrentPosition->getCol() << "]";
+        std::cout << std::endl; 
+
+        // Print the environment
+        for (int row = 0; row < ENV_DIM; row++)
             {
                 for (int col = 0; col < ENV_DIM; col++)
                 {
