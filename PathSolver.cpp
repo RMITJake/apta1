@@ -23,7 +23,7 @@ void PathSolver::forwardSearch(Env env){
     NodeList* WallNodes = new NodeList();
     NodeList* AvailableNodes = new NodeList();
     NodeList* ExploredNodes = new NodeList();
-    // NodeList* DeadEnd = new NodeList();
+    NodeList* DeadEnds = new NodeList();
     // NodeList* Solution = new NodeList();
 
     // Delcare the key nodes
@@ -95,7 +95,14 @@ void PathSolver::forwardSearch(Env env){
         std::cout << "SurroundingNodes->getLength() = " << SurroundingNodes->getLength() << std::endl;
         if(SurroundingNodes->getLength() == 0)
         {
-            CurrentPosition = backTrack(CurrentPosition, AvailableNodes, ExploredNodes, SurroundingNodes);
+            CurrentPosition = backTrack(CurrentPosition, AvailableNodes, ExploredNodes, SurroundingNodes, DeadEnds);
+            for (int i = 0; i < DeadEnds->getLength(); i++)
+            {
+                std::cout << "Node added to DeadEnds = ";
+                std::cout << "[" << DeadEnds->getNode(i)->getRow() << "]";
+                std::cout << "[" << DeadEnds->getNode(i)->getCol() << "]";
+                std::cout << std::endl; 
+            }
         }
 
         for (int i = 0; i < SurroundingNodes->getLength(); i++)
@@ -276,7 +283,7 @@ bool PathSolver::inExplored(Node* CheckNode, NodeList* ExploredNodes)
 
 }
 
-Node* PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes, NodeList* SurroundingNodes)
+Node* PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes, NodeList* SurroundingNodes, NodeList* DeadEnds)
 {
     std::cout << "###########################" << std::endl;
     std::cout << "#       Backtracking      #" << std::endl;
@@ -292,6 +299,8 @@ Node* PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, Nod
         std::cout << std::endl;
         SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
     }
+
+    DeadEnds->addElement(ExploredNodes->getNode(ExploredNodes->getLength() - backTrackCounter + 1));
 
     return CurrentPosition;
 }
