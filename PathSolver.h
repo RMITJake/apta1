@@ -45,7 +45,9 @@ private:
     /*                                           */
     NodeList* getSurroundingNodes(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes);
     NodeList *surroundingNodes;
-
+    NodeList *unexploredNodes;
+    bool inExplored(Node *CheckNode, NodeList *ExploredNodes);
+    Node *CheckNode;
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER

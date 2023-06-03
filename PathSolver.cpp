@@ -61,30 +61,57 @@ void PathSolver::forwardSearch(Env env){
     std::cout << "###########################" << std::endl;
     // Must be included in below loop
     Node* CurrentPosition = AvailableNodes->getNode(0);
+    std::cout << "Initial node added to availablenodes" << std::endl;
+    ExploredNodes->addElement(CurrentPosition);
+    std::cout << "Initial node added to explorednodes" << std::endl;
 
-    for(int loopCounter=0; loopCounter < 13; loopCounter++)
+    for(int loopCounter=0; loopCounter < 15; loopCounter++)
     {
-        ExploredNodes->addElement(CurrentPosition);
-        std::cout << "CurrentPosition = ";
-        std::cout << "[" << CurrentPosition->getRow() << "]";
-        std::cout << "[" << CurrentPosition->getCol() << "]";
-        std::cout << " explored." << std::endl;
+        for (int row = 0; row < ENV_DIM; row++)
+        {
+            for (int col = 0; col < ENV_DIM; col++)
+            {
+                if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
+                {
+                    env[row][col] = 'x';
+                }
+                    std::cout << env[row][col];
+            }
+            std::cout << std::endl;
+        }
+
+        // std::cout << "CurrentPosition = ";
+        // std::cout << "[" << CurrentPosition->getRow() << "]";
+        // std::cout << "[" << CurrentPosition->getCol() << "]";
+        // std::cout << "[" << CurrentPosition->getEstimatedDist2Goal(GoalNode) << "]";
+        // std::cout << std::endl;
 
         NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
+        // std::cout << "Next unexplored nodes = ";
+        // for (int i = 0; i < unexploredNodes->getLength(); i++)
+        // {
+        //     std::cout << "[" << unexploredNodes->getNode(0)->getRow() << "]";
+        //     std::cout << "[" << unexploredNodes->getNode(0)->getCol() << "]";
+        //     std::cout << "[" << unexploredNodes->getNode(0)->getEstimatedDist2Goal(GoalNode) << "]";
+        // }
+        // std::cout << std::endl;
+
 
         // Check Surrounding Nodes - Maybe makes this into a function
         // Check Right Node: Row +0 Col +1
-        CurrentPosition = SurroundingNodes->getNode(0);
         for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
         {
-           //Check which node has the least estimated distance and set currentposition to that node
-           if(CurrentPosition->getEstimatedDist2Goal(GoalNode) > SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
-           {
+           if(CurrentPosition->getEstimatedDist2Goal(GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
+            {
                 CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
-           }
+                ExploredNodes->addElement(CurrentPosition);
+            } else {
+                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+                ExploredNodes->addElement(CurrentPosition);
+            }
         }
+        std::cout << "|========================================================" << std::endl;
     }
-
 
     // std::cout << "###########################" << std::endl;
     // std::cout << "# Printing Env            #" << std::endl;
@@ -96,47 +123,6 @@ void PathSolver::forwardSearch(Env env){
     //         std::cout << env[row][col];
     //     }
     //     std::cout << std::endl;
-    // }
-
-    // std::cout << std::endl;
-    // std::cout << "###########################" << std::endl;
-    // std::cout << "# Print Key Nodes         #" << std::endl;
-    // std::cout << "###########################" << std::endl;
-    
-    // // Echo the row and col of S
-    // std::cout << "S is at location: [" << KeyNodes->getNode(0)->getRow() << "][" << KeyNodes->getNode(0)->getCol() << "]";
-    // // Confirm the symbol at location [row][col]
-    // std::cout << "[" << env[KeyNodes->getNode(0)->getRow()][KeyNodes->getNode(0)->getCol()] << "]" << std::endl;
-
-    // std::cout << "G is at location: [" << KeyNodes->getNode(1)->getRow() << "][" << KeyNodes->getNode(1)->getCol() << "]";
-    // std::cout << "[" << env[KeyNodes->getNode(1)->getRow()][KeyNodes->getNode(1)->getCol()] << "]" << std::endl;
-
-    // std::cout << std::endl;
-    // std::cout << "###########################" << std::endl;
-    // std::cout << "# Print Wall Nodes        #" << std::endl;
-    // std::cout << "###########################" << std::endl;
-    // for (int iterator=0; iterator < WallNodes->getLength(); iterator++)
-    // {
-    //     std::cout << "[" << WallNodes->getNode(iterator)->getRow() << "]";
-    //     std::cout << "[" << WallNodes->getNode(iterator)->getCol() << "]";
-    //     if (iterator != (WallNodes->getLength()-1))
-    //     {
-    //         std::cout << ", ";
-    //     }
-    // }
-
-    // std::cout << std::endl;
-    // std::cout << "###########################" << std::endl;
-    // std::cout << "# Print Unexplored Nodes  #" << std::endl;
-    // std::cout << "###########################" << std::endl;
-    // for (int iterator=0; iterator < UnexploredNodes->getLength(); iterator++)
-    // {
-    //     std::cout << "[" << UnexploredNodes->getNode(iterator)->getRow() << "]";
-    //     std::cout << "[" << UnexploredNodes->getNode(iterator)->getCol() << "]";
-    //     if (iterator != (UnexploredNodes->getLength()-1))
-    //     {
-    //         std::cout << ", ";
-    //     }
     // }
 }
 
@@ -165,23 +151,97 @@ NodeList* PathSolver::getSurroundingNodes(Node* CurrentPosition, NodeList* Avail
         int availableCol = AvailableNodes->getNode(checkLoop)->getCol();
         if(nextCol == availableCol && currentRow == availableRow)
         {
+            // std::cout << "CheckingAvailableNode = ";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getRow() << "]";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getCol() << "]";
+            // std::cout << " Added to surrounding" << std::endl;
             surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
         }
         if(nextRow == availableRow && currentCol == availableCol)
         {
+            // std::cout << "CheckingAvailableNode = ";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getRow() << "]";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getCol() << "]";
+            // std::cout << " Added to surrounding" << std::endl;
             surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
         }
         if(prevCol == availableCol && currentRow == availableRow)
         {
+            // std::cout << "CheckingAvailableNode = ";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getRow() << "]";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getCol() << "]";
+            // std::cout << " Added to surrounding" << std::endl;
             surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
         }
         if(prevRow == availableRow && currentCol == availableCol)
         {
+            // std::cout << "CheckingAvailableNode = ";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getRow() << "]";
+            // std::cout << "[" << AvailableNodes->getNode(checkLoop)->getCol() << "]";
+            // std::cout << " Added to surrounding" << std::endl;
             surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
         }
     }
 
-    return this->surroundingNodes;
+    // for (int sNodes = 0; sNodes < this->surroundingNodes->getLength(); sNodes++)
+    // {
+    //     std::cout << "# Surrounding node = ";
+    //     std::cout << "[" << this->surroundingNodes->getNode(sNodes)->getRow() << "]";
+    //     std::cout << "[" << this->surroundingNodes->getNode(sNodes)->getCol() << "]";
+    //     std::cout << "." << std::endl;
+    // }
+
+    this->unexploredNodes = new NodeList;
+
+
+    for (int checkExplored = 0; checkExplored < surroundingNodes->getLength(); checkExplored++)
+    {
+        Node *CheckNode = surroundingNodes->getNode(checkExplored);
+
+        if (!inExplored(CheckNode, ExploredNodes))
+        {
+            this->unexploredNodes->addElement(CheckNode);
+            // std::cout << "Node " << checkExplored << " = ";
+            // std::cout << "[" << CheckNode->getRow() << "]";
+            // std::cout << "[" << CheckNode->getCol() << "]";
+            // std::cout << " added to unexploredNodes";
+            // std::cout << std::endl;
+        } 
+    }
+    return this->unexploredNodes;
+}
+
+bool PathSolver::inExplored(Node* CheckNode, NodeList* ExploredNodes)
+{
+    int currentRow = CheckNode->getRow();
+    int currentCol = CheckNode->getCol();
+
+    // std::cout << "Checking explored = ";
+    // std::cout << "[" << CheckNode->getRow() << "]";
+    // std::cout << "[" << CheckNode->getCol() << "]";
+    // std::cout << std::endl;
+
+
+    for (int checkExplored = 0; checkExplored < ExploredNodes->getLength(); checkExplored++)
+    {
+        int exploredRow = ExploredNodes->getNode(checkExplored)->getRow();
+        int exploredCol = ExploredNodes->getNode(checkExplored)->getCol();
+        // std::cout << "Comparing with = ";
+        // std::cout << "[" << exploredRow << "]";
+        // std::cout << "[" << exploredCol << "]";
+        // std::cout << std::endl;
+
+        if(currentRow == exploredRow && currentCol == exploredCol)
+        {
+            // std::cout << "Node is explored = ";
+            // std::cout << "[" << currentRow << "]";
+            // std::cout << "[" << currentCol << "]";
+            // std::cout << std::endl;
+            return true;
+        }
+    }
+    return false;
+
 }
 
 //-----------------------------
