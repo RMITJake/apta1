@@ -62,41 +62,27 @@ void PathSolver::forwardSearch(Env env){
     // Must be included in below loop
     Node* CurrentPosition = AvailableNodes->getNode(0);
 
-    for(int loopCounter=0; loopCounter < 3; loopCounter++)
+    for(int loopCounter=0; loopCounter < 13; loopCounter++)
     {
         ExploredNodes->addElement(CurrentPosition);
         std::cout << "CurrentPosition = ";
         std::cout << "[" << CurrentPosition->getRow() << "]";
         std::cout << "[" << CurrentPosition->getCol() << "]";
-        std::cout << std::endl;
-        
+        std::cout << " explored." << std::endl;
+
+        NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
 
         // Check Surrounding Nodes - Maybe makes this into a function
         // Check Right Node: Row +0 Col +1
-        if(env[CurrentPosition->getRow()][CurrentPosition->getCol()+1] == '.')
+        CurrentPosition = SurroundingNodes->getNode(0);
+        for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
         {
-            std::cout << ".";
-            CurrentPosition = 
-        } else
-        {
-            std::cout << "x";
+           //Check which node has the least estimated distance and set currentposition to that node
+           if(CurrentPosition->getEstimatedDist2Goal(GoalNode) > SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
+           {
+                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+           }
         }
-        // Check Below Node: Row +1 Col +0
-        if(env[CurrentPosition->getRow()+1][CurrentPosition->getCol()])
-        {
-            std::cout << "=";
-        }
-        // Check Left Node: Row +0 Col -1
-        if(env[CurrentPosition->getRow()][CurrentPosition->getCol()-1])
-        {
-            std::cout << "=";
-        }
-        // Check Above Node: Row -1 Col +0
-        if(env[CurrentPosition->getRow()-1][CurrentPosition->getCol()])
-        {
-            std::cout << "=";
-        }
-        std::cout << std::endl;
     }
 
 
@@ -161,5 +147,41 @@ NodeList* PathSolver::getNodesExplored(){
 // NodeList* PathSolver::getPath(Env env){
 //     // TODO
 // }
+
+NodeList* PathSolver::getSurroundingNodes(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes)
+{
+    this->surroundingNodes = new NodeList;
+
+    int currentRow = CurrentPosition->getRow();
+    int currentCol = CurrentPosition->getCol();
+    int nextRow = currentRow + 1;
+    int nextCol = currentCol + 1;
+    int prevRow = currentRow - 1;
+    int prevCol = currentCol - 1;
+
+    for (int checkLoop = 0; checkLoop < AvailableNodes->getLength(); checkLoop++)
+    {
+        int availableRow = AvailableNodes->getNode(checkLoop)->getRow();
+        int availableCol = AvailableNodes->getNode(checkLoop)->getCol();
+        if(nextCol == availableCol && currentRow == availableRow)
+        {
+            surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
+        }
+        if(nextRow == availableRow && currentCol == availableCol)
+        {
+            surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
+        }
+        if(prevCol == availableCol && currentRow == availableRow)
+        {
+            surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
+        }
+        if(prevRow == availableRow && currentCol == availableCol)
+        {
+            surroundingNodes->addElement(AvailableNodes->getNode(checkLoop));
+        }
+    }
+
+    return this->surroundingNodes;
+}
 
 //-----------------------------

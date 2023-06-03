@@ -43,10 +43,9 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    
+    NodeList* getSurroundingNodes(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes);
+    NodeList *surroundingNodes;
+
 };
-
-
-
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER
