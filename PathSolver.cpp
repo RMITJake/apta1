@@ -23,6 +23,7 @@ void PathSolver::forwardSearch(Env env){
     NodeList* WallNodes = new NodeList();
     NodeList* AvailableNodes = new NodeList();
     NodeList* ExploredNodes = new NodeList();
+    // NodeList* DeadEnd = new NodeList();
     // NodeList* Solution = new NodeList();
 
     // Delcare the key nodes
@@ -65,20 +66,8 @@ void PathSolver::forwardSearch(Env env){
     ExploredNodes->addElement(CurrentPosition);
     std::cout << "Initial node added to explorednodes" << std::endl;
 
-    for(int loopCounter=0; loopCounter < 15; loopCounter++)
+    for(int loopCounter=0; loopCounter < 20; loopCounter++)
     {
-        for (int row = 0; row < ENV_DIM; row++)
-        {
-            for (int col = 0; col < ENV_DIM; col++)
-            {
-                if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
-                {
-                    env[row][col] = 'x';
-                }
-                    std::cout << env[row][col];
-            }
-            std::cout << std::endl;
-        }
 
         // std::cout << "CurrentPosition = ";
         // std::cout << "[" << CurrentPosition->getRow() << "]";
@@ -109,6 +98,34 @@ void PathSolver::forwardSearch(Env env){
                 CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
                 ExploredNodes->addElement(CurrentPosition);
             }
+        }
+
+        std::cout << "SurroundingNodes->getLength() = " << SurroundingNodes->getLength() << std::endl;
+        if(SurroundingNodes->getLength() == 0)
+        {
+            backTrack(CurrentPosition, AvailableNodes, ExploredNodes);
+        }
+
+        for (int i = 0; i < SurroundingNodes->getLength(); i++)
+        {
+            std::cout << "In surrounding nodes = ";
+            std::cout << "[" << SurroundingNodes->getNode(i)->getRow() << "]";
+            std::cout << "[" << SurroundingNodes->getNode(i)->getCol() << "]";
+            std::cout << "[" << SurroundingNodes->getNode(i)->getEstimatedDist2Goal(GoalNode) << "]";
+            std::cout << std::endl; 
+        }
+
+            for (int row = 0; row < ENV_DIM; row++)
+            {
+                for (int col = 0; col < ENV_DIM; col++)
+                {
+                    if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
+                    {
+                        env[row][col] = 'x';
+                    }
+                    std::cout << env[row][col];
+            }
+            std::cout << std::endl;
         }
         std::cout << "|========================================================" << std::endl;
     }
@@ -242,6 +259,13 @@ bool PathSolver::inExplored(Node* CheckNode, NodeList* ExploredNodes)
     }
     return false;
 
+}
+
+void PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes)
+{
+    std::cout << "###########################" << std::endl;
+    std::cout << "#       Backtracking      #" << std::endl;
+    std::cout << "###########################" << std::endl;
 }
 
 //-----------------------------
