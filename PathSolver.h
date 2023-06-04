@@ -52,6 +52,7 @@ private:
     NodeList* Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* GoalNode);
     NodeList* Solution;
     Node* DeadEndNode;
+    char pathSymbol(int solutionNode, NodeList* Solution);
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER
