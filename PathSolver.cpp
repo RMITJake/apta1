@@ -75,11 +75,11 @@ void PathSolver::forwardSearch(Env env){
     // for(int loopCounter=0; loopCounter < 2; loopCounter++)
     {
 
-        std::cout << "CurrentPosition = ";
-        std::cout << "[" << CurrentPosition->getRow() << "]";
-        std::cout << "[" << CurrentPosition->getCol() << "]";
-        std::cout << "[" << CurrentPosition->getEstimatedDist2Goal(GoalNode) << "]";
-        std::cout << std::endl;
+        // std::cout << "CurrentPosition = ";
+        // std::cout << "[" << CurrentPosition->getRow() << "]";
+        // std::cout << "[" << CurrentPosition->getCol() << "]";
+        // std::cout << "[" << CurrentPosition->getEstimatedDist2Goal(GoalNode) << "]";
+        // std::cout << std::endl;
 
         NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
         // std::cout << "Next unexplored nodes = ";
@@ -104,14 +104,14 @@ void PathSolver::forwardSearch(Env env){
             }
         }
 
-        for (int i = 0; i < SurroundingNodes->getLength(); i++)
-        {
-            std::cout << "In surrounding nodes = ";
-            std::cout << "[" << SurroundingNodes->getNode(i)->getRow() << "]";
-            std::cout << "[" << SurroundingNodes->getNode(i)->getCol() << "]";
-            std::cout << "[" << SurroundingNodes->getNode(i)->getEstimatedDist2Goal(GoalNode) << "]";
-            std::cout << std::endl; 
-        }
+        // for (int i = 0; i < SurroundingNodes->getLength(); i++)
+        // {
+        //     std::cout << "In surrounding nodes = ";
+        //     std::cout << "[" << SurroundingNodes->getNode(i)->getRow() << "]";
+        //     std::cout << "[" << SurroundingNodes->getNode(i)->getCol() << "]";
+        //     std::cout << "[" << SurroundingNodes->getNode(i)->getEstimatedDist2Goal(GoalNode) << "]";
+        //     std::cout << std::endl; 
+        // }
 
         // Check Surrounding Nodes - Maybe makes this into a function
         // Check Right Node: Row +0 Col +1
@@ -125,10 +125,10 @@ void PathSolver::forwardSearch(Env env){
             }
         }
         ExploredNodes->addElement(CurrentPosition);
-        std::cout << "Moved to = ";
-        std::cout << "[" << CurrentPosition->getRow() << "]";
-        std::cout << "[" << CurrentPosition->getCol() << "]";
-        std::cout << std::endl; 
+        // std::cout << "Moved to = ";
+        // std::cout << "[" << CurrentPosition->getRow() << "]";
+        // std::cout << "[" << CurrentPosition->getCol() << "]";
+        // std::cout << std::endl; 
 
         // Print the environment
         // for (int row = 0; row < ENV_DIM; row++)
@@ -150,14 +150,33 @@ void PathSolver::forwardSearch(Env env){
         // std::cout << "|========================================================" << std::endl;
     }
 
-    Solve(ExploredNodes, DeadEnds, GoalNode);
-    // std::cout << "###########################" << std::endl;
-    // std::cout << "# Printing Env            #" << std::endl;
-    // std::cout << "###########################" << std::endl;
+    NodeList* Solution = new NodeList();
+    Solution = Solve(ExploredNodes, DeadEnds, GoalNode);
+    Solution = Solution;
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Printing Solution       #" << std::endl;
+    std::cout << "###########################" << std::endl;
+    std::cout << "# Solution length = " << Solution->getLength() << std::endl;
+
+    for(int i=0; i < Solution->getLength(); i++)
+    {
+        std::cout << "[" << Solution->getNode(i)->getRow() << "]";
+        std::cout << "[" << Solution->getNode(i)->getCol() << "]";
+        std::cout << std::endl; 
+    }
+
     // for (int row = 0; row < ENV_DIM; row++)
     // {
     //     for (int col = 0; col < ENV_DIM; col++)
     //     {
+    //         if (env[row][col] == env[GoalNode->getRow()][GoalNode->getCol()])
+    //         {
+    //             env[row][col] = 'G';
+    //         }
+    //         else if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
+    //         {
+    //             env[row][col] = 'x';
+    //         }
     //         std::cout << env[row][col];
     //     }
     //     std::cout << std::endl;
@@ -253,8 +272,7 @@ bool PathSolver::inExplored(Node* CheckNode, NodeList* ExploredNodes)
 {
     int currentRow = CheckNode->getRow();
     int currentCol = CheckNode->getCol();
-
-    // std::cout << "Checking explored = ";
+    // std::cout << "Checking node = ";
     // std::cout << "[" << CheckNode->getRow() << "]";
     // std::cout << "[" << CheckNode->getCol() << "]";
     // std::cout << std::endl;
@@ -313,7 +331,7 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
     NodeList* Solution = new NodeList();
     Node* CurrentPosition = nullptr;
 
-    for(int inDeadEnds=0; inDeadEnds <= DeadEnds->getLength(); inDeadEnds++)
+    for(int inDeadEnds=0; inDeadEnds < DeadEnds->getLength(); inDeadEnds++)
     {
         CurrentPosition = DeadEnds->getNode(inDeadEnds);
         std::cout << "DeadEnd nodes = ";
@@ -322,24 +340,53 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
         std::cout << std::endl;
     }
 
-    for(int node=1; node <= ExploredNodes->getLength(); node++)
+    // for(int node=0; node < ExploredNodes->getLength(); node++)
+    // {
+    //     std::cout << "Explored nodes = ";
+    //     std::cout << "[" << ExploredNodes->getNode(node)->getRow() << "]";
+    //     std::cout << "[" << ExploredNodes->getNode(node)->getCol() << "]";
+    //     std::cout << std::endl;
+    // }
+
+
+    CurrentPosition = ExploredNodes->getNode(0);
+    for(int node=0; node < ExploredNodes->getLength(); node++)
     {
-        CurrentPosition = ExploredNodes->getNode(ExploredNodes->getLength()-node);
+
+        CurrentPosition = ExploredNodes->getNode(node);
         for(int inDeadEnds=0; inDeadEnds < DeadEnds->getLength(); inDeadEnds++)
         {
+            int newnode=node;
             if(inExplored(CurrentPosition, DeadEnds))
             {
                 std::cout << "CurrentPosition leads to dead end = ";
                 std::cout << "[" << CurrentPosition->getRow() << "]";
                 std::cout << "[" << CurrentPosition->getCol() << "]";
                 std::cout << std::endl;
-            } else  {
+                newnode=node;
+                // Node* DeadEndPath = ExploredNodes->getNode(node+1);
+                // DeadEndPath = DeadEndPath;
+                // for(int i=0; i < 3; i++)
+                while(CurrentPosition != ExploredNodes->getNode(node-1))
+                {
+                    CurrentPosition = ExploredNodes->getNode(newnode);
+                    std::cout << "Position removed from solution = ";
+                    std::cout << "[" << CurrentPosition->getRow() << "]";
+                    std::cout << "[" << CurrentPosition->getCol() << "]";
+                    std::cout << std::endl;
+                    newnode++;
+                    // inDeadEnds++;
+                }
+                newnode--;
+                // node++;
+            } else {
                 std::cout << "CurrentPosition added to solution = ";
                 std::cout << "[" << CurrentPosition->getRow() << "]";
                 std::cout << "[" << CurrentPosition->getCol() << "]";
                 std::cout << std::endl;
-
+                Solution->addElement(CurrentPosition);
             }
+            node=newnode;
         }
     }
 

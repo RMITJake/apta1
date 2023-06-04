@@ -51,6 +51,7 @@ private:
     Node* backTrack(Node *CurrentPosition, NodeList *AvailableNodes, NodeList *NodesExplored, NodeList* SurroundingNodes, NodeList* DeadEnds);
     NodeList* Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* GoalNode);
     NodeList* Solution;
+    Node* DeadEndNode;
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER
