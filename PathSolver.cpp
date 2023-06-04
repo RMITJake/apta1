@@ -165,22 +165,6 @@ void PathSolver::forwardSearch(Env env){
         std::cout << std::endl; 
     }
 
-    // for (int row = 0; row < ENV_DIM; row++)
-    // {
-    //     for (int col = 0; col < ENV_DIM; col++)
-    //     {
-    //         if (env[row][col] == env[GoalNode->getRow()][GoalNode->getCol()])
-    //         {
-    //             env[row][col] = 'G';
-    //         }
-    //         else if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
-    //         {
-    //             env[row][col] = 'x';
-    //         }
-    //         std::cout << env[row][col];
-    //     }
-    //     std::cout << std::endl;
-    // }
 }
 
 NodeList* PathSolver::getNodesExplored(){
