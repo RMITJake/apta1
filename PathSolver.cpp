@@ -125,9 +125,9 @@ void PathSolver::forwardSearch(Env env){
             }
         }
         ExploredNodes->addElement(CurrentPosition);
-        // std::cout << "Moved to = ";
-        // std::cout << "[" << CurrentPosition->getRow() << "]";
-        // std::cout << "[" << CurrentPosition->getCol() << "]";
+        // std::cout << "Added to explored = ";
+        // std::cout << "[" << ExploredNodes->getNode(ExploredNodes->getLength()-1)->getRow() << "]";
+        // std::cout << "[" << ExploredNodes->getNode(ExploredNodes->getLength()-1)->getCol() << "]";
         // std::cout << std::endl; 
 
         // Print the environment
@@ -349,13 +349,19 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
     NodeList* Solution = new NodeList();
     Node* CurrentPosition = nullptr;
 
+    if(DeadEnds->getLength() == 1)
+    {
+        std::cout << "Adding element" << std::endl;
+        DeadEnds->addElement(new Node(1, 1, 0));
+    }
+
     for(int inDeadEnds=0; inDeadEnds < DeadEnds->getLength(); inDeadEnds++)
     {
         CurrentPosition = DeadEnds->getNode(inDeadEnds);
-        // std::cout << "DeadEnd nodes = ";
-        // std::cout << "[" << CurrentPosition->getRow() << "]";
-        // std::cout << "[" << CurrentPosition->getCol() << "]";
-        // std::cout << std::endl;
+        std::cout << "DeadEnd nodes = ";
+        std::cout << "[" << CurrentPosition->getRow() << "]";
+        std::cout << "[" << CurrentPosition->getCol() << "]";
+        std::cout << std::endl;
     }
 
     // for(int node=0; node < ExploredNodes->getLength(); node++)
@@ -372,6 +378,13 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
     {
 
         CurrentPosition = ExploredNodes->getNode(node);
+
+        if (DeadEnds->getLength() == 0)
+        {
+            std::cout << "Adding node to empty dead end" << std::endl;
+            DeadEnds->addElement(new Node(0, 0, 0));
+        }
+
         for(int inDeadEnds=0; inDeadEnds < DeadEnds->getLength(); inDeadEnds++)
         {
             int newnode=node;
@@ -398,10 +411,10 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
                 newnode--;
                 // node++;
             } else {
-                // std::cout << "CurrentPosition added to solution = ";
-                // std::cout << "[" << CurrentPosition->getRow() << "]";
-                // std::cout << "[" << CurrentPosition->getCol() << "]";
-                // std::cout << std::endl;
+                std::cout << "CurrentPosition added to solution = ";
+                std::cout << "[" << CurrentPosition->getRow() << "]";
+                std::cout << "[" << CurrentPosition->getCol() << "]";
+                std::cout << std::endl;
                 Solution->addElement(CurrentPosition);
             }
             node=newnode;
