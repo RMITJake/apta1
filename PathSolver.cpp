@@ -71,10 +71,11 @@ void PathSolver::forwardSearch(Env env){
     ExploredNodes->addElement(CurrentPosition);
     // std::cout << "Initial node added to explorednodes" << std::endl;
 
+    int distanceTracker = 0;
     while(CurrentPosition != GoalNode)
     // for(int loopCounter=0; loopCounter < 2; loopCounter++)
     {
-
+        distanceTracker++;
         // std::cout << "CurrentPosition = ";
         // std::cout << "[" << CurrentPosition->getRow() << "]";
         // std::cout << "[" << CurrentPosition->getCol() << "]";
@@ -117,12 +118,14 @@ void PathSolver::forwardSearch(Env env){
         // Check Right Node: Row +0 Col +1
         for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
         {
-           if(CurrentPosition->getEstimatedDist2Goal(GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
-            {
-                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
-            } else {
-                CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
-            }
+        //    if(CurrentPosition->getEstimatedDist2Goal(GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
+        //     {
+        //         CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+        //     } else {
+        //         CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+        //     }
+            CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+            CurrentPosition->setDistanceTraveled(distanceTracker);
         }
         ExploredNodes->addElement(CurrentPosition);
         // std::cout << "Added to explored = ";
@@ -355,14 +358,14 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
         DeadEnds->addElement(new Node(1, 1, 0));
     }
 
-    for(int inDeadEnds=0; inDeadEnds < DeadEnds->getLength(); inDeadEnds++)
-    {
-        CurrentPosition = DeadEnds->getNode(inDeadEnds);
-        std::cout << "DeadEnd nodes = ";
-        std::cout << "[" << CurrentPosition->getRow() << "]";
-        std::cout << "[" << CurrentPosition->getCol() << "]";
-        std::cout << std::endl;
-    }
+    // for(int inDeadEnds=0; inDeadEnds < DeadEnds->getLength(); inDeadEnds++)
+    // {
+    //     CurrentPosition = DeadEnds->getNode(inDeadEnds);
+    //     std::cout << "DeadEnd nodes = ";
+    //     std::cout << "[" << CurrentPosition->getRow() << "]";
+    //     std::cout << "[" << CurrentPosition->getCol() << "]";
+    //     std::cout << std::endl;
+    // }
 
     // for(int node=0; node < ExploredNodes->getLength(); node++)
     // {
@@ -381,7 +384,7 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
 
         if (DeadEnds->getLength() == 0)
         {
-            std::cout << "Adding node to empty dead end" << std::endl;
+            // std::cout << "Adding node to empty dead end" << std::endl;
             DeadEnds->addElement(new Node(0, 0, 0));
         }
 
@@ -414,6 +417,7 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
                 std::cout << "CurrentPosition added to solution = ";
                 std::cout << "[" << CurrentPosition->getRow() << "]";
                 std::cout << "[" << CurrentPosition->getCol() << "]";
+                std::cout << "[" << CurrentPosition->getDistanceTraveled() << "]";
                 std::cout << std::endl;
                 Solution->addElement(CurrentPosition);
             }
