@@ -1,14 +1,17 @@
 #include "PathSolver.h"
 #include <iostream>
 
-PathSolver::PathSolver(){
+PathSolver::PathSolver()
+{
 }
 
-PathSolver::~PathSolver(){
+PathSolver::~PathSolver()
+{
     // TODO
 }
 
-void PathSolver::forwardSearch(Env env){
+void PathSolver::forwardSearch(Env env)
+{
     // Delcare the NodeLists that will need to be used
     // Saves the positions of the wall nodes
     NodeList* WallNodes = new NodeList();
@@ -52,7 +55,8 @@ void PathSolver::forwardSearch(Env env){
                 AvailableNodes->addElement(GoalNode);
             }
             // Check if [row][col] matches the wall symbol
-            else if (env[row][col] == SYMBOL_WALL) {
+            else if (env[row][col] == SYMBOL_WALL)
+            {
                 // Create a wall node with a dist_traveled value of 0
                 Node* WallNode = new Node(row, col, 0);
                 // Add the wall node to the list of wall nodes that cannot be explored
@@ -77,6 +81,7 @@ void PathSolver::forwardSearch(Env env){
     // main loop
     while(CurrentPosition != GoalNode)
     {
+        // Start distance tracker at 1
         distanceTracker++;
 
         NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
@@ -108,7 +113,8 @@ void PathSolver::forwardSearch(Env env){
                 if (env[row][col] == SYMBOL_GOAL)
                 {
                     env[row][col] = SYMBOL_GOAL;
-                } else if (env[row][col] == SYMBOL_START)
+                }
+                else if (env[row][col] == SYMBOL_START)
                 {
                     env[row][col] = SYMBOL_START;
                 }
@@ -131,11 +137,13 @@ void PathSolver::forwardSearch(Env env){
     std::cout << std::endl;
 }
 
-NodeList* PathSolver::getNodesExplored(){
+NodeList* PathSolver::getNodesExplored()
+{
     return this->nodesExplored;
 }
 
-NodeList* PathSolver::getPath(Env env){
+NodeList* PathSolver::getPath(Env env)
+{
     return this->Solution;
 }
 
