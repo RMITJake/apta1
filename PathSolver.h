@@ -53,6 +53,7 @@ private:
     NodeList* Solution;
     Node* DeadEndNode;
     char pathSymbol(int solutionNode, NodeList* Solution);
+    Node* setCurrentPosition(Node *CurrentPosition, NodeList* ExploredNodes);
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER

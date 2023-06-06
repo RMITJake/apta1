@@ -55,9 +55,6 @@ int main(int argc, char** argv){
 }
 
 void readEnvStdin(Env env){
-    std::cout << "###########################" << std::endl;
-    std::cout << "# Reding Input File       #" << std::endl;
-    std::cout << "###########################" << std::endl;
     for (int row = 0; row < ENV_DIM; row++)
     {
         for (int col = 0; col < ENV_DIM; col++)
