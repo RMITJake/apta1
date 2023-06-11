@@ -43,6 +43,9 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    // Delcare NodeLists
+    NodeList* solution;
+
     NodeList* getSurroundingNodes(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes);
     NodeList *surroundingNodes;
     NodeList *unexploredNodes;
@@ -50,7 +53,6 @@ private:
     Node *CheckNode;
     Node* backTrack(Node *CurrentPosition, NodeList *AvailableNodes, NodeList *NodesExplored, NodeList* SurroundingNodes, NodeList* DeadEnds);
     NodeList* Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* GoalNode);
-    NodeList* Solution;
     Node* DeadEndNode;
     char pathSymbol(int solutionNode, NodeList* Solution);
     Node* setCurrentPosition(Node *CurrentPosition, NodeList* ExploredNodes);

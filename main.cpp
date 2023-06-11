@@ -45,7 +45,8 @@ int main(int argc, char** argv){
 
     // // Get the path
     // // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
-    // NodeList* solution = pathSolver->getPath(env);
+    NodeList* solution = pathSolver->getPath(env);
+    solution = solution;
 
     // printEnvStdout(env, solution);
 

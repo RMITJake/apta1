@@ -4,6 +4,7 @@
 PathSolver::PathSolver()
 {
     nodesExplored = new NodeList();
+    solution = new NodeList();
 }
 
 PathSolver::~PathSolver()
@@ -110,13 +111,11 @@ void PathSolver::forwardSearch(Env env)
         CurrentPosition = setCurrentPosition(CurrentPosition, this->nodesExplored);
     }
 
-    NodeList* Solution = new NodeList();
-    Solution = Solve(this->nodesExplored, DeadEnds, GoalNode);
-    Solution = Solution;
+    this->solution = Solve(this->nodesExplored, DeadEnds, GoalNode);
 
-    for (int solutionNode = 0; solutionNode < Solution->getLength(); solutionNode++)
+    for (int solutionNode = 0; solutionNode < this->solution->getLength(); solutionNode++)
     {
-        CurrentPosition = Solution->getNode(solutionNode);
+        CurrentPosition = this->solution->getNode(solutionNode);
         for (int row = 0; row < ENV_DIM; row++)
         {
             for (int col = 0; col < ENV_DIM; col++)
@@ -131,7 +130,7 @@ void PathSolver::forwardSearch(Env env)
                 }
                 else if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
                 {
-                    env[row][col] = pathSymbol(solutionNode, Solution);
+                    env[row][col] = pathSymbol(solutionNode, this->solution);
                 }
             }
         }
@@ -155,7 +154,7 @@ NodeList* PathSolver::getNodesExplored()
 
 NodeList* PathSolver::getPath(Env env)
 {
-    return this->Solution;
+    return this->solution;
 }
 
 NodeList* PathSolver::getSurroundingNodes(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes)
