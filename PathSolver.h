@@ -43,19 +43,36 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-    // Delcare NodeLists
-    NodeList* solution;
 
-    NodeList* getSurroundingNodes(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes);
-    NodeList *surroundingNodes;
-    NodeList *unexploredNodes;
-    bool inExplored(Node *CheckNode, NodeList *ExploredNodes);
+    // Declare necessary starting Nodes
+    // StartNode - holds the starting position
+    Node *StartNode;
+    // GoalNode - holds the goal position
+    Node *GoalNode;
+    // CheckNode - used as a temporary iterator in functions
     Node *CheckNode;
-    Node* backTrack(Node *CurrentPosition, NodeList *AvailableNodes, NodeList *NodesExplored, NodeList* SurroundingNodes, NodeList* DeadEnds);
-    NodeList* Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* GoalNode);
+    // DeadEndNode - used as a temporary iterator in functions
     Node* DeadEndNode;
-    char pathSymbol(int solutionNode, NodeList* Solution);
+
+    // Delcare NodeLists
+    // solution - to store the solved path
+    NodeList* solution;
+    // surroundingNodes - to temporarily store the nodes above, right, below, left of the current node
+    NodeList *surroundingNodes;
+    // unexploredNodes - to temporarily store surroundingNodes which haven't been explored so far
+    NodeList *unexploredNodes;
+
+    // Declare Functions
+    // setCurrentPosition - to update the current node and add this node to the exploredNodes list
     Node* setCurrentPosition(Node *CurrentPosition, NodeList* ExploredNodes);
+    // getSurroundingNodes - to get each node above, right, below, left of the current node
+    NodeList* getSurroundingNodes(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes);
+    // inExplored - to check if a node is in the exploredNodes list
+    bool inExplored(Node *CheckNode, NodeList *ExploredNodes);
+    // backTrack - to iterate backwards through the exploredNodes list until an available node is present
+    Node* backTrack(Node *CurrentPosition, NodeList *AvailableNodes, NodeList *NodesExplored, NodeList* SurroundingNodes, NodeList* DeadEnds);
+    // solve - to populate the solution nodelist
+    NodeList* solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* GoalNode);
 };
 
 #endif //COSC_ASSIGN_ONE_PATHSOLVER

@@ -111,7 +111,7 @@ void PathSolver::forwardSearch(Env env)
         CurrentPosition = setCurrentPosition(CurrentPosition, this->nodesExplored);
     }
 
-    this->solution = Solve(this->nodesExplored, DeadEnds, GoalNode);
+    this->solution = solve(this->nodesExplored, DeadEnds, GoalNode);
 }
 
 NodeList* PathSolver::getNodesExplored()
@@ -206,7 +206,7 @@ Node* PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, Nod
     return CurrentPosition;
 }
 
-NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* GoalNode)
+NodeList* PathSolver::solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* GoalNode)
 {
     NodeList* Solution = new NodeList();
     Node* CurrentPosition = nullptr;
