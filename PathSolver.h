@@ -53,9 +53,13 @@ private:
     Node *CheckNode;
     // DeadEndNode - used as a temporary iterator in functions
     Node* DeadEndNode;
+    // CurrentPosition - used to store the current node
+    Node *CurrentPosition;
 
     // Delcare NodeLists
+    // availableNodes - saves the coordinates of each of the empty nodes
     NodeList *availableNodes;
+    // wallNodes - saves the coordinates of each of the wall nodes
     NodeList *wallNodes;
     // unexploredNodes - to temporarily store surroundingNodes which haven't been explored so far
     NodeList *unexploredNodes;

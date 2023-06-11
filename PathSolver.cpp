@@ -17,6 +17,7 @@ PathSolver::PathSolver()
     // Delcare the key nodes
     GoalNode = nullptr;
     StartNode = nullptr;
+    CurrentPosition = nullptr;
 }
 
 PathSolver::~PathSolver()
@@ -70,28 +71,28 @@ void PathSolver::forwardSearch(Env env)
     }
 
     // Set current position as the starting position and then add the current position to the explored nodes list
-    Node* CurrentPosition = setCurrentPosition(this->StartNode, this->nodesExplored);
+    this->CurrentPosition = setCurrentPosition(this->StartNode, this->nodesExplored);
 
     // create the distance tracker with a value of 0
     int distanceTracker = 0;
     
     // main loop
-    while(CurrentPosition != this->GoalNode)
+    while(this->CurrentPosition != this->GoalNode)
     {
         // Start distance tracker at 1
         distanceTracker++;
 
-        NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, this->availableNodes, this->nodesExplored);
+        NodeList* SurroundingNodes = getSurroundingNodes(this->CurrentPosition, this->availableNodes, this->nodesExplored);
 
         if(SurroundingNodes->getLength() == 0)
         {
-            CurrentPosition = backTrack(CurrentPosition, this->availableNodes, this->nodesExplored, SurroundingNodes, this->deadEnds);
+            this->CurrentPosition = backTrack(this->CurrentPosition, this->availableNodes, this->nodesExplored, SurroundingNodes, this->deadEnds);
         }
 
         Node *ClosestNode = nullptr;
         for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
         {
-            if(CurrentPosition->getEstimatedDist2Goal(this->GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(this->GoalNode))
+            if(this->CurrentPosition->getEstimatedDist2Goal(this->GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(this->GoalNode))
             {
                 std::cout << "Closest node set" << std::endl;
                 ClosestNode = SurroundingNodes->getNode(checkSurrounding);
@@ -100,10 +101,10 @@ void PathSolver::forwardSearch(Env env)
             {
                 ClosestNode = SurroundingNodes->getNode(checkSurrounding);
             }
-            CurrentPosition = ClosestNode;
-            CurrentPosition->setDistanceTraveled(distanceTracker);
+            this->CurrentPosition = ClosestNode;
+            this->CurrentPosition->setDistanceTraveled(distanceTracker);
         }
-        CurrentPosition = setCurrentPosition(CurrentPosition, this->nodesExplored);
+        this->CurrentPosition = setCurrentPosition(CurrentPosition, this->nodesExplored);
     }
 
     this->solution = solve(this->nodesExplored, this->deadEnds, this->GoalNode);
