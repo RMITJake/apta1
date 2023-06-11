@@ -9,6 +9,8 @@ PathSolver::PathSolver()
     wallNodes = new NodeList();
     // nodesExplored - saves the list of nodes which have been explored
     nodesExplored = new NodeList();
+    // deadEnd - saves the nodes which are discovered to be dead ends after the backtrack method
+    deadEnds = new NodeList();
     // solution - holds the final path for the robot
     solution = new NodeList();
 
@@ -24,12 +26,6 @@ PathSolver::~PathSolver()
 
 void PathSolver::forwardSearch(Env env)
 {
-    // Nodes are added to the ExploredNodes list after they have become the CurrentPosition
-    // NodeList* ExploredNodes = new NodeList();
-    
-    // DeadEnd nodes are discovered after a path has been explored and determined to lead nowhere
-    NodeList* DeadEnds = new NodeList();
-
     // Iterate through the environment map and app nodes to their respective lists
     // Iterate through rows
     for (int row = 0; row < ENV_DIM; row++)
@@ -89,7 +85,7 @@ void PathSolver::forwardSearch(Env env)
 
         if(SurroundingNodes->getLength() == 0)
         {
-            CurrentPosition = backTrack(CurrentPosition, this->availableNodes, this->nodesExplored, SurroundingNodes, DeadEnds);
+            CurrentPosition = backTrack(CurrentPosition, this->availableNodes, this->nodesExplored, SurroundingNodes, this->deadEnds);
         }
 
         Node *ClosestNode = nullptr;
@@ -110,7 +106,7 @@ void PathSolver::forwardSearch(Env env)
         CurrentPosition = setCurrentPosition(CurrentPosition, this->nodesExplored);
     }
 
-    this->solution = solve(this->nodesExplored, DeadEnds, GoalNode);
+    this->solution = solve(this->nodesExplored, this->deadEnds, GoalNode);
 }
 
 NodeList* PathSolver::getNodesExplored()

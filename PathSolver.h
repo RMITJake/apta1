@@ -57,12 +57,14 @@ private:
     // Delcare NodeLists
     NodeList *availableNodes;
     NodeList *wallNodes;
+    // unexploredNodes - to temporarily store surroundingNodes which haven't been explored so far
+    NodeList *unexploredNodes;
     // solution - to store the solved path
     NodeList* solution;
     // surroundingNodes - to temporarily store the nodes above, right, below, left of the current node
     NodeList *surroundingNodes;
-    // unexploredNodes - to temporarily store surroundingNodes which haven't been explored so far
-    NodeList *unexploredNodes;
+    // deadEnds - to store the nodes which are known to lead to dead ends after the backtrack method is called
+    NodeList *deadEnds;
 
     // Declare Functions
     // setCurrentPosition - to update the current node and add this node to the exploredNodes list
