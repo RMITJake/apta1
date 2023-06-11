@@ -11,6 +11,10 @@ PathSolver::PathSolver()
     nodesExplored = new NodeList();
     // solution - holds the final path for the robot
     solution = new NodeList();
+
+    // Delcare the key nodes
+    GoalNode = nullptr;
+    StartNode = nullptr;
 }
 
 PathSolver::~PathSolver()
@@ -25,10 +29,6 @@ void PathSolver::forwardSearch(Env env)
     
     // DeadEnd nodes are discovered after a path has been explored and determined to lead nowhere
     NodeList* DeadEnds = new NodeList();
-
-    // Delcare the key nodes
-    Node* GoalNode = nullptr;
-    Node* StartNode = nullptr;
 
     // Iterate through the environment map and app nodes to their respective lists
     // Iterate through rows
