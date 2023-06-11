@@ -3,6 +3,7 @@
 
 PathSolver::PathSolver()
 {
+    nodesExplored = new NodeList();
 }
 
 PathSolver::~PathSolver()
@@ -20,7 +21,7 @@ void PathSolver::forwardSearch(Env env)
     NodeList* AvailableNodes = new NodeList();
 
     // Nodes are added to the ExploredNodes list after they have become the CurrentPosition
-    NodeList* ExploredNodes = new NodeList();
+    // NodeList* ExploredNodes = new NodeList();
     
     // DeadEnd nodes are discovered after a path has been explored and determined to lead nowhere
     NodeList* DeadEnds = new NodeList();
@@ -73,7 +74,7 @@ void PathSolver::forwardSearch(Env env)
     }
 
     // Set current position as the starting position and then add the current position to the explored nodes list
-    Node* CurrentPosition = setCurrentPosition(StartNode, ExploredNodes);
+    Node* CurrentPosition = setCurrentPosition(StartNode, this->nodesExplored);
 
     // create the distance tracker with a value of 0
     int distanceTracker = 0;
@@ -84,11 +85,11 @@ void PathSolver::forwardSearch(Env env)
         // Start distance tracker at 1
         distanceTracker++;
 
-        NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
+        NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, this->nodesExplored);
 
         if(SurroundingNodes->getLength() == 0)
         {
-            CurrentPosition = backTrack(CurrentPosition, AvailableNodes, ExploredNodes, SurroundingNodes, DeadEnds);
+            CurrentPosition = backTrack(CurrentPosition, AvailableNodes, this->nodesExplored, SurroundingNodes, DeadEnds);
         }
 
         Node *ClosestNode = nullptr;
@@ -106,11 +107,11 @@ void PathSolver::forwardSearch(Env env)
             CurrentPosition = ClosestNode;
             CurrentPosition->setDistanceTraveled(distanceTracker);
         }
-        CurrentPosition = setCurrentPosition(CurrentPosition, ExploredNodes);
+        CurrentPosition = setCurrentPosition(CurrentPosition, this->nodesExplored);
     }
 
     NodeList* Solution = new NodeList();
-    Solution = Solve(ExploredNodes, DeadEnds, GoalNode);
+    Solution = Solve(this->nodesExplored, DeadEnds, GoalNode);
     Solution = Solution;
 
     for (int solutionNode = 0; solutionNode < Solution->getLength(); solutionNode++)
