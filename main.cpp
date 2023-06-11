@@ -17,8 +17,8 @@ void readEnvStdin(Env env);
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
-// void printEnvStdout(Env env, NodeList* solution);
-
+void printEnvStdout(Env env, NodeList* solution);
+char pathSymbol(int solutionNode, NodeList* Solution);
 
 int main(int argc, char** argv){
     // THESE ARE SOME EXAMPLE FUNCTIONS TO HELP TEST YOUR CODE
@@ -48,7 +48,7 @@ int main(int argc, char** argv){
     NodeList* solution = pathSolver->getPath(env);
     solution = solution;
 
-    // printEnvStdout(env, solution);
+    printEnvStdout(env, solution);
 
     // delete pathSolver;
     // delete exploredPositions;
@@ -66,9 +66,56 @@ void readEnvStdin(Env env){
     }
 }
 
-// void printEnvStdout(Env env, NodeList* solution) {
-//     //TODO
-// }
+void printEnvStdout(Env env, NodeList* solution) {
+    Node *currentPosition = nullptr;
+    for (int solutionNode = 0; solutionNode < solution->getLength(); solutionNode++)
+    {
+        currentPosition = solution->getNode(solutionNode);
+        for (int row = 0; row < ENV_DIM; row++)
+        {
+            for (int col = 0; col < ENV_DIM; col++)
+            {
+                if (env[row][col] == SYMBOL_GOAL)
+                {
+                    env[row][col] = SYMBOL_GOAL;
+                }
+                else if (env[row][col] == SYMBOL_START)
+                {
+                    env[row][col] = SYMBOL_START;
+                }
+                else if (row == currentPosition->getRow() && col == currentPosition->getCol())
+                {
+                    env[row][col] = pathSymbol(solutionNode, solution);
+                    int nextRow = solution->getNode(solutionNode + 1)->getRow();
+                    int nextCol = solution->getNode(solutionNode + 1)->getCol();
+                    int currentRow = solution->getNode(solutionNode)->getRow();
+                    int currentCol = solution->getNode(solutionNode)->getCol();
+
+                    if(nextCol == currentCol+1)
+                    {
+                        env[row][col] = '>';
+                    } else if (nextRow == currentRow+1){
+                        env[row][col] = 'v';
+                    } else if (nextCol == currentCol-1){
+                        env[row][col] = '<';
+                    } else if (nextRow == currentRow-1){
+                        env[row][col] = '^';
+                    }
+                }
+            }
+        }
+    }
+    
+    for (int row = 0; row < ENV_DIM; row++)
+    {
+        for (int col = 0; col < ENV_DIM; col++)
+        {
+            std::cout << env[row][col];
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
 
 void testNode() {
     std::cout << "TESTING Node" << std::endl;
@@ -113,4 +160,25 @@ void testNodeList() {
 
     // Print out the NodeList
     std::cout << "PRINTING OUT A NODELIST IS AN EXERCISE FOR YOU TO DO" << std::endl;
+}
+
+char pathSymbol(int solutionNode, NodeList* Solution)
+{
+    int nextRow = Solution->getNode(solutionNode + 1)->getRow();
+    int nextCol = Solution->getNode(solutionNode + 1)->getCol();
+    int currentRow = Solution->getNode(solutionNode)->getRow();
+    int currentCol = Solution->getNode(solutionNode)->getCol();
+
+    if(nextCol == currentCol+1)
+    {
+        return '>';
+    } else if (nextRow == currentRow+1){
+        return 'v';
+    } else if (nextCol == currentCol-1){
+        return '<';
+    } else if (nextRow == currentRow-1){
+        return '^';
+    }
+
+    return 'x';
 }

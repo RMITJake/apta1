@@ -112,39 +112,6 @@ void PathSolver::forwardSearch(Env env)
     }
 
     this->solution = Solve(this->nodesExplored, DeadEnds, GoalNode);
-
-    for (int solutionNode = 0; solutionNode < this->solution->getLength(); solutionNode++)
-    {
-        CurrentPosition = this->solution->getNode(solutionNode);
-        for (int row = 0; row < ENV_DIM; row++)
-        {
-            for (int col = 0; col < ENV_DIM; col++)
-            {
-                if (env[row][col] == SYMBOL_GOAL)
-                {
-                    env[row][col] = SYMBOL_GOAL;
-                }
-                else if (env[row][col] == SYMBOL_START)
-                {
-                    env[row][col] = SYMBOL_START;
-                }
-                else if (row == CurrentPosition->getRow() && col == CurrentPosition->getCol())
-                {
-                    env[row][col] = pathSymbol(solutionNode, this->solution);
-                }
-            }
-        }
-    }
-    
-    for (int row = 0; row < ENV_DIM; row++)
-    {
-        for (int col = 0; col < ENV_DIM; col++)
-        {
-            std::cout << env[row][col];
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
 }
 
 NodeList* PathSolver::getNodesExplored()
@@ -281,27 +248,6 @@ NodeList* PathSolver::Solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
     }
 
     return Solution;
-}
-
-char PathSolver::pathSymbol(int solutionNode, NodeList* Solution)
-{
-    int nextRow = Solution->getNode(solutionNode + 1)->getRow();
-    int nextCol = Solution->getNode(solutionNode + 1)->getCol();
-    int currentRow = Solution->getNode(solutionNode)->getRow();
-    int currentCol = Solution->getNode(solutionNode)->getCol();
-
-    if(nextCol == currentCol+1)
-    {
-        return '>';
-    } else if (nextRow == currentRow+1){
-        return 'v';
-    } else if (nextCol == currentCol-1){
-        return '<';
-    } else if (nextRow == currentRow-1){
-        return '^';
-    }
-
-    return 'x';
 }
 
 // Method to take in the new current position, add it to the explored nodes list and return the current position
