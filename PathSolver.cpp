@@ -3,7 +3,13 @@
 
 PathSolver::PathSolver()
 {
+    // availableNodes - saves the coordinates of each of the empty nodes
+    availableNodes = new NodeList();
+    // wallNodes - saves the coordinates of each of the wall nodes
+    wallNodes = new NodeList();
+    // nodesExplored - saves the list of nodes which have been explored
     nodesExplored = new NodeList();
+    // solution - holds the final path for the robot
     solution = new NodeList();
 }
 
@@ -14,13 +20,6 @@ PathSolver::~PathSolver()
 
 void PathSolver::forwardSearch(Env env)
 {
-    // Delcare the NodeLists that will need to be used
-    // Saves the positions of the wall nodes
-    NodeList* WallNodes = new NodeList();
-
-    // Saves the positions of the empty nodes
-    NodeList* AvailableNodes = new NodeList();
-
     // Nodes are added to the ExploredNodes list after they have become the CurrentPosition
     // NodeList* ExploredNodes = new NodeList();
     
@@ -46,7 +45,7 @@ void PathSolver::forwardSearch(Env env)
                 // Create the start node with a dist_traveled value of 0
                 StartNode = new Node(row, col, 0);
                 // Add the start node to the list of nodes that are available to be explored
-                AvailableNodes->addElement(StartNode);
+                this->availableNodes->addElement(StartNode);
             }
             // Check if [row][col] matches the goal symbol
             else if (env[row][col] == SYMBOL_GOAL)
@@ -54,7 +53,7 @@ void PathSolver::forwardSearch(Env env)
                 // Create the goal node with a dist_traveled value of 0
                 GoalNode = new Node(row, col, 0);
                 // Add the goal node to the list of nodes that are available to be explored
-                AvailableNodes->addElement(GoalNode);
+                this->availableNodes->addElement(GoalNode);
             }
             // Check if [row][col] matches the wall symbol
             else if (env[row][col] == SYMBOL_WALL)
@@ -62,14 +61,14 @@ void PathSolver::forwardSearch(Env env)
                 // Create a wall node with a dist_traveled value of 0
                 Node* WallNode = new Node(row, col, 0);
                 // Add the wall node to the list of wall nodes that cannot be explored
-                WallNodes->addElement(WallNode);
+                this->wallNodes->addElement(WallNode);
             }
             // Check if [row][col] matches the empty symbol
             else if (env[row][col] == SYMBOL_EMPTY) {
                 // Create an empty node with a dist_traveled value of 0
                 Node* EmptyNode = new Node(row, col, 0);
                 // Add the empty node to the list of empty nodes that are available be explored
-                AvailableNodes->addElement(EmptyNode);
+                this->availableNodes->addElement(EmptyNode);
             }
         }
     }
@@ -86,11 +85,11 @@ void PathSolver::forwardSearch(Env env)
         // Start distance tracker at 1
         distanceTracker++;
 
-        NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, this->nodesExplored);
+        NodeList* SurroundingNodes = getSurroundingNodes(CurrentPosition, this->availableNodes, this->nodesExplored);
 
         if(SurroundingNodes->getLength() == 0)
         {
-            CurrentPosition = backTrack(CurrentPosition, AvailableNodes, this->nodesExplored, SurroundingNodes, DeadEnds);
+            CurrentPosition = backTrack(CurrentPosition, this->availableNodes, this->nodesExplored, SurroundingNodes, DeadEnds);
         }
 
         Node *ClosestNode = nullptr;

@@ -55,6 +55,8 @@ private:
     Node* DeadEndNode;
 
     // Delcare NodeLists
+    NodeList *availableNodes;
+    NodeList *wallNodes;
     // solution - to store the solved path
     NodeList* solution;
     // surroundingNodes - to temporarily store the nodes above, right, below, left of the current node
