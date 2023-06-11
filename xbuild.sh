@@ -1,5 +1,6 @@
 #!/bin/bash
 # files paths
+clear;
 path="/home/jake/uni/2337 Advanded Programming Techniques/apta1"
 outfile="$path/assign1.out"
 

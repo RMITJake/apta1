@@ -91,9 +91,19 @@ void PathSolver::forwardSearch(Env env)
             CurrentPosition = backTrack(CurrentPosition, AvailableNodes, ExploredNodes, SurroundingNodes, DeadEnds);
         }
 
+        Node *ClosestNode = nullptr;
         for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
         {
-            CurrentPosition = SurroundingNodes->getNode(checkSurrounding);
+            if(CurrentPosition->getEstimatedDist2Goal(GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
+            {
+                std::cout << "Closest node set" << std::endl;
+                ClosestNode = SurroundingNodes->getNode(checkSurrounding);
+            }
+            if(ClosestNode == nullptr)
+            {
+                ClosestNode = SurroundingNodes->getNode(checkSurrounding);
+            }
+            CurrentPosition = ClosestNode;
             CurrentPosition->setDistanceTraveled(distanceTracker);
         }
         CurrentPosition = setCurrentPosition(CurrentPosition, ExploredNodes);
