@@ -4,7 +4,12 @@ path="/home/jake/uni/2337 Advanded Programming Techniques/apta1"
 infile="$path/assign1.out"
 testcases="$path/test"
 
-files=("test1" "test2" "test3" "test4" "test5")
+files=( "test1"
+				"test2"
+				"test3"
+				"test4"
+				"test5"
+				"test6")
 
 if [ ! -f  "$infile" ]; then
 	echo "$infile exists"
@@ -17,7 +22,7 @@ else
 	echo "#==================================#"
 
 	for testcase in ${files[@]}; do
-		"$infile" < "$testcases/$testcase.env"
+		"$infile" < "$testcases/$testcase.env" >> "$testcases/tests.out"
 	done
 
 	if [ $? == 1 ]; then
