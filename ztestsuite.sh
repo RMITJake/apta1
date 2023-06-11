@@ -3,6 +3,7 @@ clear;
 path="/home/jake/uni/2337 Advanded Programming Techniques/apta1"
 infile="$path/assign1.out"
 testcases="$path/test"
+testout="$testcases/tests.out"
 
 files=( "test1"
 				"test2"
@@ -21,8 +22,14 @@ else
 	echo "#            Testing....           #"
 	echo "#==================================#"
 
+	if [ -f "$testout" ]; then
+		echo "# Removing tests.out....           #"
+		rm "$testout"
+	fi
+
 	for testcase in ${files[@]}; do
-		"$infile" < "$testcases/$testcase.env" >> "$testcases/tests.out"
+		echo "$testcase.env" | tee -a "$testout"
+		"$infile" < "$testcases/$testcase.env" | tee -a "$testout"
 	done
 
 	if [ $? == 1 ]; then
