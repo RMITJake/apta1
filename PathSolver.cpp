@@ -39,17 +39,17 @@ void PathSolver::forwardSearch(Env env)
             if (env[row][col] == SYMBOL_START)
             {
                 // Create the start node with a dist_traveled value of 0
-                StartNode = new Node(row, col, 0);
+                this->StartNode = new Node(row, col, 0);
                 // Add the start node to the list of nodes that are available to be explored
-                this->availableNodes->addElement(StartNode);
+                this->availableNodes->addElement(this->StartNode);
             }
             // Check if [row][col] matches the goal symbol
             else if (env[row][col] == SYMBOL_GOAL)
             {
                 // Create the goal node with a dist_traveled value of 0
-                GoalNode = new Node(row, col, 0);
+                this->GoalNode = new Node(row, col, 0);
                 // Add the goal node to the list of nodes that are available to be explored
-                this->availableNodes->addElement(GoalNode);
+                this->availableNodes->addElement(this->GoalNode);
             }
             // Check if [row][col] matches the wall symbol
             else if (env[row][col] == SYMBOL_WALL)
@@ -70,13 +70,13 @@ void PathSolver::forwardSearch(Env env)
     }
 
     // Set current position as the starting position and then add the current position to the explored nodes list
-    Node* CurrentPosition = setCurrentPosition(StartNode, this->nodesExplored);
+    Node* CurrentPosition = setCurrentPosition(this->StartNode, this->nodesExplored);
 
     // create the distance tracker with a value of 0
     int distanceTracker = 0;
     
     // main loop
-    while(CurrentPosition != GoalNode)
+    while(CurrentPosition != this->GoalNode)
     {
         // Start distance tracker at 1
         distanceTracker++;
@@ -91,7 +91,7 @@ void PathSolver::forwardSearch(Env env)
         Node *ClosestNode = nullptr;
         for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
         {
-            if(CurrentPosition->getEstimatedDist2Goal(GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(GoalNode))
+            if(CurrentPosition->getEstimatedDist2Goal(this->GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(this->GoalNode))
             {
                 std::cout << "Closest node set" << std::endl;
                 ClosestNode = SurroundingNodes->getNode(checkSurrounding);
@@ -106,7 +106,7 @@ void PathSolver::forwardSearch(Env env)
         CurrentPosition = setCurrentPosition(CurrentPosition, this->nodesExplored);
     }
 
-    this->solution = solve(this->nodesExplored, this->deadEnds, GoalNode);
+    this->solution = solve(this->nodesExplored, this->deadEnds, this->GoalNode);
 }
 
 NodeList* PathSolver::getNodesExplored()
