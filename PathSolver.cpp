@@ -81,24 +81,27 @@ void PathSolver::forwardSearch(Env env)
     {
         // Start distance tracker at 1
         distanceTracker++;
-
+        // Get surrounding nodes
         NodeList* SurroundingNodes = getSurroundingNodes(this->CurrentPosition, this->availableNodes, this->nodesExplored);
 
+        // If there are no nodes in the surrounding nodes list, backtrack
         if(SurroundingNodes->getLength() == 0)
         {
             this->CurrentPosition = backTrack(this->CurrentPosition, this->availableNodes, this->nodesExplored, SurroundingNodes, this->deadEnds);
         }
 
+        // Create an empty closest node
         Node *ClosestNode = nullptr;
         for (int checkSurrounding = 0; checkSurrounding < SurroundingNodes->getLength(); checkSurrounding++)
         {
             if(this->CurrentPosition->getEstimatedDist2Goal(this->GoalNode) <= SurroundingNodes->getNode(checkSurrounding)->getEstimatedDist2Goal(this->GoalNode))
             {
-                std::cout << "Closest node set" << std::endl;
+                // If the goal to dist of current node is closer than closest node, make this closest node
                 ClosestNode = SurroundingNodes->getNode(checkSurrounding);
             }
             if(ClosestNode == nullptr)
             {
+                // If closest node hasn't been set yet, initialize it here
                 ClosestNode = SurroundingNodes->getNode(checkSurrounding);
             }
             this->CurrentPosition = ClosestNode;
@@ -131,6 +134,7 @@ NodeList* PathSolver::getSurroundingNodes(Node* CurrentPosition, NodeList* Avail
     int prevRow = currentRow - 1;
     int prevCol = currentCol - 1;
 
+    // Check all nodes up, left, below, and right of the current node, if they are available add them to the surrounding nodes list
     for (int checkLoop = 0; checkLoop < AvailableNodes->getLength(); checkLoop++)
     {
         int availableRow = AvailableNodes->getNode(checkLoop)->getRow();
@@ -153,9 +157,10 @@ NodeList* PathSolver::getSurroundingNodes(Node* CurrentPosition, NodeList* Avail
         }
     }
 
+    // node list to store the available but unexplored nodes
     this->unexploredNodes = new NodeList;
 
-
+    // go through the available node list, if the current node is not in available nodes add that node to unexplored nodes
     for (int checkExplored = 0; checkExplored < surroundingNodes->getLength(); checkExplored++)
     {
         Node *CheckNode = surroundingNodes->getNode(checkExplored);
@@ -173,6 +178,7 @@ bool PathSolver::inExplored(Node* CheckNode, NodeList* ExploredNodes)
     int currentRow = CheckNode->getRow();
     int currentCol = CheckNode->getCol();
 
+    // check if the current node is in teh explored node list
     for (int checkExplored = 0; checkExplored < ExploredNodes->getLength(); checkExplored++)
     {
         int exploredRow = ExploredNodes->getNode(checkExplored)->getRow();
@@ -189,6 +195,7 @@ bool PathSolver::inExplored(Node* CheckNode, NodeList* ExploredNodes)
 
 Node* PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, NodeList* ExploredNodes, NodeList* SurroundingNodes, NodeList* DeadEnds)
 {
+    // go backwards down the nodelist until there is an available node in surrounding nodes
     int backTrackCounter = 1;
     while (SurroundingNodes->getLength() == 0)
     {
@@ -197,8 +204,8 @@ Node* PathSolver::backTrack(Node* CurrentPosition, NodeList* AvailableNodes, Nod
         SurroundingNodes = getSurroundingNodes(CurrentPosition, AvailableNodes, ExploredNodes);
     }
 
+    // add the last touched node to deadends
     DeadEnds->addElement(ExploredNodes->getNode(ExploredNodes->getLength() - backTrackCounter + 1));
-
     return CurrentPosition;
 }
 
@@ -212,18 +219,14 @@ NodeList* PathSolver::solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
         DeadEnds->addElement(new Node(1, 1, 0));
     }
 
-
     CurrentPosition = ExploredNodes->getNode(0);
     for(int node=0; node < ExploredNodes->getLength(); node++)
     {
-
         CurrentPosition = ExploredNodes->getNode(node);
-
         if (DeadEnds->getLength() == 0)
         {
             DeadEnds->addElement(new Node(0, 0, 0));
         }
-
         for(int inDeadEnds=0; inDeadEnds < DeadEnds->getLength(); inDeadEnds++)
         {
             int newnode=node;
@@ -242,7 +245,6 @@ NodeList* PathSolver::solve(NodeList* ExploredNodes, NodeList* DeadEnds, Node* G
             node=newnode;
         }
     }
-
     return Solution;
 }
 
