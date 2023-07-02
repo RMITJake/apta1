@@ -117,7 +117,7 @@ void printEnvStdout(Env env, NodeList* solution) {
 }
 
 void testNode() {
-    std::cout << "TESTING Node" << std::endl;
+    // std::cout << "TESTING Node" << std::endl;
 
     // Make a Node and print out the contents
     Node* node = new Node(1, 1, 2);
@@ -135,7 +135,7 @@ void testNode() {
 }
 
 void testNodeList() {
-    std::cout << "TESTING NodeList" << std::endl;
+    // std::cout << "TESTING NodeList" << std::endl;
 
     // Make a simple NodeList, should be empty size
     NodeList* nodeList = new NodeList();
