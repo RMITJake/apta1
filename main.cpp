@@ -56,6 +56,7 @@ int main(int argc, char** argv){
 }
 
 void readEnvStdin(Env env){
+    // Iterate through columns and rows from cin
     for (int row = 0; row < ENV_DIM; row++)
     {
         for (int col = 0; col < ENV_DIM; col++)
@@ -74,6 +75,7 @@ void printEnvStdout(Env env, NodeList* solution) {
         {
             for (int col = 0; col < ENV_DIM; col++)
             {
+                // Assign the globally defined symbols
                 if (env[row][col] == SYMBOL_GOAL)
                 {
                     env[row][col] = SYMBOL_GOAL;
@@ -84,12 +86,14 @@ void printEnvStdout(Env env, NodeList* solution) {
                 }
                 else if (row == currentPosition->getRow() && col == currentPosition->getCol())
                 {
+                    // Check where the next node is
                     env[row][col] = pathSymbol(solutionNode, solution);
                     int nextRow = solution->getNode(solutionNode + 1)->getRow();
                     int nextCol = solution->getNode(solutionNode + 1)->getCol();
                     int currentRow = solution->getNode(solutionNode)->getRow();
                     int currentCol = solution->getNode(solutionNode)->getCol();
 
+                    // Assign the current node symbol based on the next nodes location
                     if(nextCol == currentCol+1)
                     {
                         env[row][col] = '>';
@@ -105,6 +109,7 @@ void printEnvStdout(Env env, NodeList* solution) {
         }
     }
     
+    // Print out the environment solution
     for (int row = 0; row < ENV_DIM; row++)
     {
         for (int col = 0; col < ENV_DIM; col++)
